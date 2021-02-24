@@ -1,0 +1,115 @@
+﻿@model LeftRover.ViewModels.HomeViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row" style="padding-top: 20px;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Search Results Map:
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Map View</h5>
+                <div id="map" style="width: 100%; height: 500px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-bottom: 10px; padding-top: 10px;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Search Results List:
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Description</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DonationsModel donation in Model.Donations)
+                        {
+                        <tr>
+                            <td><a href="/Home/ViewDonation?id=@donation.DonationID">@donation.Description</a></td>
+                            <td>@donation.Status</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw7YL8Cj-VpRbf_eVhMf9xV6mnKrg0VBM&callback=initMap&libraries=&v=weekly" async></script>
+<script>
+    let map;
+
+    function initMap() {
+
+        const geocoder = new google.maps.Geocoder();
+
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 34.1621, lng: -119.0435 },
+            zoom: 10,
+        });
+
+        @{ string mark_home = ""; }
+
+        @if(User.Identity.Name != null && User.Identity.IsAuthenticated)
+        {
+            mark_home = "geocodeHomeAddress(geocoder, map, \"" + Model.HomeAddress + "\");";
+            @Html.Raw(mark_home);
+        }
+
+        @foreach (DonationsModel dnt in Model.Donations)
+        {
+            string geocode = "geocodeAddress(geocoder, map, \"" + dnt.GetAddress() + "\", \"/Home/ViewDonation?id=" + dnt.DonationID + "\");";
+            @Html.Raw(geocode);
+        }
+    }
+
+    function geocodeHomeAddress(geocoder, resultsMap, addressGiven) {
+        const address = addressGiven;
+        geocoder.geocode({ address: address }, (results, status) => {
+            if (status === "OK") {
+                resultsMap.setCenter(results[0].geometry.location);
+                new google.maps.Marker({
+                    map: resultsMap,
+                    label: "Your Location",
+                    position: results[0].geometry.location,
+                });
+            }
+            else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+    }
+
+    function geocodeAddress(geocoder, resultsMap, addressGiven, urlGiven) {
+        const address = addressGiven;
+        const url = urlGiven;
+        geocoder.geocode({ address: address }, (results, status) => {
+            if (status === "OK") {
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    label: "Donation",
+                    url: url,
+                    position: results[0].geometry.location,
+                });
+
+                google.maps.event.addListener(marker, 'click', function () {
+                    window.location.href = this.url;
+                });
+            }
+            else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+    }
+</script>

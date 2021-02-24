@@ -1,0 +1,130 @@
+﻿@model LeftRover.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row" style="padding-top: 20px;">
+    <div class="col-md-6">
+        <form method="post">
+            <legend>Register for acceess to the LeftRover platform.</legend>
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                    <input type="email" asp-for="Email" class="form-control" id="exampleInputEmail1">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" asp-for="Password" class="form-control" id="exampleInputPassword1">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" asp-for="ConfirmPassword" class="form-control" id="ConfirmPassword">
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="OrganizationName" class="form-label">Organization Name</label>
+                    <input type="text" asp-for="OrganizationName" class="form-control" id="OrganizationName">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-auto">
+                    <div class="mb-3">
+                        <label for="FirstName" class="form-label">First Name</label>
+                        <input type="text" asp-for="FirstName" class="form-control" id="FirstName">
+                    </div>
+                </div>
+                <div class="col-auto">
+
+                    <div class="mb-3">
+                        <label for="LastName" class="form-label">Last Name</label>
+                        <input type="text" asp-for="LastName" class="form-control" id="LastName">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="PhoneNumber" class="form-label">Phone Number</label>
+                    <input type="tel" asp-for="PhoneNumber" class="form-control" id="PhoneNumber">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="StreetAddress" class="form-label">Street Address</label>
+                    <input type="text" asp-for="StreetAddress" class="form-control" id="StreetAddress">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="StreetAddress2" class="form-label">Street Address Line 2</label>
+                    <input type="text" asp-for="StreetAddress2" class="form-control" id="StreetAddress2">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-auto">
+                    <div class="mb-3">
+                        <label for="City" class="form-label">City</label>
+                        <input type="text" asp-for="City" class="form-control" id="City">
+                    </div>
+                </div>
+                <div class="col-auto">
+
+                    <div class="mb-3">
+                        <label for="State" class="form-label">State</label>
+                        <input type="text" asp-for="State" class="form-control" id="State">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="Zip" class="form-label">Postal / ZIP Code</label>
+                    <input type="text" asp-for="Zip" class="form-control" id="Zip">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="TaxID" class="form-label">Charity / Tax ID</label>
+                    <input type="text" asp-for="TaxID" class="form-control" id="TaxID">
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 10px; padding-bottom: 10px;">
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="DonorRecipient" name="DonorRecipient" id="Donor" value="Donor">
+                        <label class="form-check-label" for="Donor">
+                            Donor
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="DonorRecipient" name="DonorRecipient" id="Recipient" value="Recipient">
+                        <label class="form-check-label" for="Recipient">
+                            Recipient
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</div>
