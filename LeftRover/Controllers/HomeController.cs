@@ -95,6 +95,7 @@ namespace LeftRover.Controllers
             DonationsModel donation = _donationsContext.Donations.Select(dnts => dnts).Where(dnt => dnt.DonationID == id).FirstOrDefault();
             MyDonationsViewModel dnt_vm = new MyDonationsViewModel
             {
+                DonationID = id,
                 Description = donation.Description,
                 Instructions = donation.Instructions,
                 Contact = donation.Contact,

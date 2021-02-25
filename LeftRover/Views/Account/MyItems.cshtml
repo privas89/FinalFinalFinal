@@ -1,0 +1,46 @@
+﻿@model LeftRover.ViewModels.MyClaimsViewModel
+@{
+    ViewData["Title"] = "My Items";
+}
+
+    <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    My Claimed Items:
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Description</th>
+                                <th scope="col">Status</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DonationsModel donation in Model.ClaimedDonations)
+                            {
+                                <tr>
+                                    <td>@donation.Description</td>
+                                    <td>@donation.Status</td>
+                                    @if (donation.Status.Equals("Recieved"))
+                                    {
+                                        <td></td>
+                                        <td></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a href="/Account/RemoveClaimedDonation?id=@donation.DonationID" class="btn btn-secondary" role="button">Remove</a></td>
+                                        <td><a href="/Account/MarkDonationRecieved?id=@donation.DonationID" class="btn btn-secondary" role="button">Mark As Recieved</a></td>
+                                    }
+
+                                </tr>
+                            }  
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

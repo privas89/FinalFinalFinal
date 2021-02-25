@@ -36,6 +36,7 @@ namespace LeftRover.Controllers
             _leftRoverContext = leftRoverContext;
         }
 
+        [Authorize]
         public IActionResult MyProfile()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -66,6 +67,147 @@ namespace LeftRover.Controllers
             return View();
         }
 
+        [Authorize(Policy = "Recipient")]
+        public IActionResult RemoveClaimedDonation(int id)
+        {
+            MyClaimsViewModel my_claims = new MyClaimsViewModel();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            DonationClaimsModel claim_to_remove = _leftRoverContext.DonationClaims.Where(dnt => dnt.DonationID == id && dnt.UserId.Equals(userId)).FirstOrDefault();
+
+            try
+            {
+                _leftRoverContext.DonationClaims.Attach(claim_to_remove);
+                _leftRoverContext.DonationClaims.Remove(claim_to_remove);
+                _leftRoverContext.SaveChanges();
+            }
+            catch
+            {
+
+            }
+
+            DonationsModel donation_selected = _leftRoverContext.Donations.Where(dnt => dnt.DonationID == id).FirstOrDefault();
+
+            donation_selected.Status = "Available";
+
+            try
+            {
+                _leftRoverContext.SaveChanges();
+            }
+            catch
+            {
+
+            }
+
+            List<DonationClaimsModel> claimed_donations = _leftRoverContext.DonationClaims.Where(dnts => dnts.UserId.Equals(userId)).ToList();
+            List<DonationsModel> donations = new List<DonationsModel>();
+
+            foreach (DonationClaimsModel claimed in claimed_donations)
+            {
+                DonationsModel donation = _leftRoverContext.Donations.Where(dnt => dnt.DonationID == claimed.DonationID).FirstOrDefault();
+                donations.Add(donation);
+            }
+
+            my_claims.ClaimedDonations = donations;
+
+            return View("MyItems", my_claims);
+        }
+
+        [Authorize(Policy = "Recipient")]
+        public IActionResult MarkDonationRecieved(int id)
+        {
+            MyClaimsViewModel my_claims = new MyClaimsViewModel();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            DonationsModel donation_selected = _leftRoverContext.Donations.Where(dnt => dnt.DonationID == id).FirstOrDefault();
+
+            donation_selected.Status = "Recieved";
+
+            try
+            {
+                _leftRoverContext.SaveChanges();
+            }
+            catch
+            {
+
+            }
+
+            List<DonationClaimsModel> claimed_donations = _leftRoverContext.DonationClaims.Where(dnts => dnts.UserId.Equals(userId)).ToList();
+            List<DonationsModel> donations = new List<DonationsModel>();
+
+            foreach (DonationClaimsModel claimed in claimed_donations)
+            {
+                DonationsModel donation = _leftRoverContext.Donations.Where(dnt => dnt.DonationID == claimed.DonationID).FirstOrDefault();
+                donations.Add(donation);
+            }
+
+            my_claims.ClaimedDonations = donations;
+
+            return View("MyItems", my_claims);
+        }
+
+        [Authorize(Policy = "Recipient")]
+        public IActionResult MyItems(MyClaimsViewModel model)
+        {
+            MyClaimsViewModel my_claims = new MyClaimsViewModel();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            List<DonationClaimsModel> claimed_donations = _leftRoverContext.DonationClaims.Where(dnts => dnts.UserId.Equals(userId)).ToList();
+            List<DonationsModel> donations = new List<DonationsModel>();
+
+            foreach (DonationClaimsModel claimed in claimed_donations)
+            {
+                DonationsModel donation = _leftRoverContext.Donations.Where(dnt => dnt.DonationID == claimed.DonationID).FirstOrDefault();
+                donations.Add(donation);
+            }
+
+            my_claims.ClaimedDonations = donations;
+
+            return View(my_claims);
+        }
+
+        [Authorize(Policy = "Recipient")]
+        [HttpPost]
+        public IActionResult ClaimDonation(MyDonationsViewModel model)
+        {
+            MyClaimsViewModel my_claims = new MyClaimsViewModel();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            DonationClaimsModel claim = new DonationClaimsModel
+            {
+                DonationID = model.DonationID,
+                UserId = userId
+            };
+
+            try
+            {
+                _leftRoverContext.DonationClaims.Add(claim);
+                _leftRoverContext.SaveChanges();
+
+                DonationsModel donation = _leftRoverContext.Donations.Where(dnt => dnt.DonationID == model.DonationID).FirstOrDefault();
+                donation.Status = "Claimed";
+                _leftRoverContext.SaveChanges();
+            }
+            catch
+            {
+
+            }
+
+            List<DonationClaimsModel> claimed_donations = _leftRoverContext.DonationClaims.Where(dnts => dnts.UserId.Equals(userId)).ToList();
+            List<DonationsModel> donations = new List<DonationsModel>();
+
+            foreach (DonationClaimsModel claimed in claimed_donations)
+            {
+                DonationsModel donation = _leftRoverContext.Donations.Where(dnt => dnt.DonationID == claimed.DonationID).FirstOrDefault();
+                donations.Add(donation);
+            }
+
+            my_claims.ClaimedDonations = donations;
+
+            return View("MyItems", my_claims);
+        }
+
+        [Authorize(Policy = "Donor")]
         public IActionResult UpdateDonation(MyDonationsViewModel model)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -102,6 +244,7 @@ namespace LeftRover.Controllers
             return RedirectToAction("MyDonations", "Account", donation_vw_model);
         }
 
+        [Authorize(Policy = "Donor")]
         public IActionResult SelectDonation(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -128,6 +271,7 @@ namespace LeftRover.Controllers
             return View(donation_vw_model);
         }
 
+        [Authorize(Policy = "Donor")]
         public IActionResult MyDonations()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -140,6 +284,7 @@ namespace LeftRover.Controllers
             return View(donation_vw_model);
         }
 
+        [Authorize(Policy = "Donor")]
         public IActionResult DeleteDonation(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -169,6 +314,7 @@ namespace LeftRover.Controllers
             return View("MyDonations", donation_vw_model);
         }
 
+        [Authorize(Policy = "Donor")]
         [HttpPost]
         public IActionResult CreateDonation(MyDonationsViewModel model)
         {
@@ -212,6 +358,7 @@ namespace LeftRover.Controllers
             return View("MyDonations", donation_vw_model);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult UpdateInfo(UpdateInfoViewModel model)
         {
@@ -251,6 +398,7 @@ namespace LeftRover.Controllers
             return View("MyProfile", model);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult UpdatePassword(UpdateInfoViewModel model)
         {
@@ -393,6 +541,11 @@ namespace LeftRover.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

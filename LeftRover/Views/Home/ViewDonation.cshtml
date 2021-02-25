@@ -10,7 +10,7 @@
                Donation Details:
             </div>
             <div class="card-body">
-                <form method="post" action="/Account/UpdateDonation">
+                <form method="post" action="/Account/ClaimDonation">
                     <div asp-validation-summary="All" class="text-danger"></div>
 
                     <div class="row">
@@ -109,6 +109,15 @@
                             <input type="text" asp-for="Zip" class="form-control" id="Zip" placeholder="@Model.Zip" disabled>
                         </div>
                     </div>
+
+                    @if (User.Identity.IsAuthenticated && User.HasClaim("UserType", "Donor"))
+                    {
+
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary">Claim</button>
+                    }
                 </form>
             </div>
         </div>

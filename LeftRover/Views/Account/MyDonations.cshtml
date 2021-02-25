@@ -30,8 +30,16 @@
                                     <tr>
                                         <td>@donation.Description</td>
                                         <td>@donation.Status</td>
+                                        @if (donation.Status.Equals("Available"))
+                                        {
                                         <td><a href="/Account/SelectDonation?id=@donation.DonationID" class="btn btn-secondary" role="button">Update</a></td>
                                         <td><a href="/Account/DeleteDonation?id=@donation.DonationID" class="btn btn-secondary" role="button">Delete</a></td>
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw("<td></td><td></td>");
+                                        }
+
                                     </tr>
                                 }
                             }

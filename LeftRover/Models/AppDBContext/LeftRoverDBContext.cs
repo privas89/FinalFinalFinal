@@ -18,5 +18,14 @@ namespace LeftRover.Models.AppDBContext
         public DbSet<DonationsModel> Donations { get; set; }
         public DbSet<UserAddressModel> UserAddress { get; set; }
         public DbSet<UserInfoModel> UserInfoModel { get; set; }
+        public DbSet<DonationClaimsModel> DonationClaims { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<DonationClaimsModel>().HasKey(table => new {
+                table.DonationID,
+                table.UserId
+            });
+        }
     }
 }

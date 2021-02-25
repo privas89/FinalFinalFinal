@@ -44,6 +44,18 @@ namespace LeftRover
 
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Donor", policy =>
+                                  policy.RequireClaim("UserType", "Donor"));
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Recipient", policy =>
+                                  policy.RequireClaim("UserType", "Recipient"));
+            });
+
             services.AddControllersWithViews();
         }
 
