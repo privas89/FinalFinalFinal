@@ -96,6 +96,7 @@ namespace LeftRover.Controllers
             MyDonationsViewModel dnt_vm = new MyDonationsViewModel
             {
                 DonationID = id,
+                Status = donation.Status,
                 Description = donation.Description,
                 Instructions = donation.Instructions,
                 Contact = donation.Contact,

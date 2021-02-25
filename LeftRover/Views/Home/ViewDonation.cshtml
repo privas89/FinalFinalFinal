@@ -114,6 +114,10 @@
                     {
 
                     }
+                    else if (Model.Status.Equals("Claimed") || Model.Status.Equals("Received"))
+                    {
+                        <button type="submit" class="btn btn-primary" disabled>Claimed</button>
+                    }
                     else
                     {
                         <button type="submit" class="btn btn-primary">Claim</button>

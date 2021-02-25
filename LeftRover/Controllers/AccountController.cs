@@ -121,7 +121,7 @@ namespace LeftRover.Controllers
 
             DonationsModel donation_selected = _leftRoverContext.Donations.Where(dnt => dnt.DonationID == id).FirstOrDefault();
 
-            donation_selected.Status = "Recieved";
+            donation_selected.Status = "Received";
 
             try
             {
