@@ -8762,11 +8762,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\peter\\source\\repos\\LeftRover\\LeftRover.csproj",
+      "projectUniqueName": "C:\\Users\\peter\\Downloads\\FinalFinalFinal\\LeftRover\\LeftRover.csproj",
       "projectName": "LeftRover",
-      "projectPath": "C:\\Users\\peter\\source\\repos\\LeftRover\\LeftRover.csproj",
+      "projectPath": "C:\\Users\\peter\\Downloads\\FinalFinalFinal\\LeftRover\\LeftRover.csproj",
       "packagesPath": "C:\\Users\\peter\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\peter\\source\\repos\\LeftRover\\obj\\",
+      "outputPath": "C:\\Users\\peter\\Downloads\\FinalFinalFinal\\LeftRover\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\peter\\AppData\\Roaming\\NuGet\\NuGet.Config",
