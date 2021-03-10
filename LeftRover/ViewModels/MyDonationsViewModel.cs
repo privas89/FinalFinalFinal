@@ -68,6 +68,15 @@ namespace LeftRover.ViewModels
         [DataType(DataType.PostalCode)]
         public string Zip { get; set; }
 
+        public string GetAddress()
+        {
+            return this.StreetAddress + " " +
+                this.StreetAddress2 + " " +
+                this.City + ", " +
+                this.State + " " +
+                this.Zip;
+        }
+
         public IEnumerable<DonationsModel> Donations { get; set; }
 
         [Display(Name = "Organization")]
