@@ -19,6 +19,7 @@ namespace LeftRover.Models.AppDBContext
         public DbSet<UserAddressModel> UserAddress { get; set; }
         public DbSet<UserInfoModel> UserInfoModel { get; set; }
         public DbSet<DonationClaimsModel> DonationClaims { get; set; }
+        public DbSet<UserIdModel> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

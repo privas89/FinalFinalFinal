@@ -56,6 +56,12 @@ namespace LeftRover
                                   policy.RequireClaim("UserType", "Recipient"));
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy =>
+                                  policy.RequireClaim("UserType", "Admin"));
+            });
+
             services.AddControllersWithViews();
         }
 

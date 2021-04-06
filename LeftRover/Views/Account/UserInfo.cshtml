@@ -1,0 +1,45 @@
+﻿@model LeftRover.Models.UserIdModel
+@{
+    ViewData["Title"] = "Edit User";
+}
+<div class="row" style="padding-top: 20px; padding-bottom: 20px;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Edit user: @Model.Email
+            </div>
+            <div class="card-body">
+                <form method="post" action="/Account/EditUser">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="IsAdmin" class="form-label">Is Admin</label>
+                            @Html.CheckBoxFor(model => model.IsAdmin, new { @class = "form-control" } )
+                            <input type="hidden" asp-for="Id" class="form-control" id="Id" value="@Model.Id">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="IsDonor" class="form-label">Is Donor</label>
+                            @Html.CheckBoxFor(model => model.IsDonor, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="IsRecipient" class="form-label">Is Recipient</label>
+                            @Html.CheckBoxFor(model => model.IsRecipient, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="IsTaxStatusVerified" class="form-label">Is Tax Verified</label>
+                            @Html.CheckBoxFor(model => model.IsTaxStatusVerified, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

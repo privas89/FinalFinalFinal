@@ -35,6 +35,12 @@
                                 <a class="nav-link" href="/Account/MyItems">My Items</a>
                             </li>
                         }
+                        @if (User.HasClaim("UserType", "Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/Admin">Admin Console</a>
+                            </li>
+                        }
                     </ul>
                     <form class="d-flex" method="post" action="/Home/SearchDonations">
                         <input class="form-control me-2" type="search" name="searchQ" id="searchQ" placeholder="Search for donations" aria-label="Search">

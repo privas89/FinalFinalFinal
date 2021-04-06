@@ -67,6 +67,165 @@ namespace LeftRover.Controllers
             return View();
         }
 
+        [Authorize(Policy = "Admin")]
+        public IActionResult Admin()
+        {
+            var users = _leftRoverContext.Users.Select(usr => usr).ToList();
+
+            foreach (UserIdModel user in users)
+            {
+                user.UserInfo = _userInfoContext.UserInfo.Where(usr => usr.Id.Equals(user.Id)).FirstOrDefault();
+                var curr_user = _userManager.FindByIdAsync(user.Id);
+                var claims = _signInManager.UserManager.GetClaimsAsync(curr_user.Result);
+
+                foreach (Claim claim in claims.Result)
+                {
+                    if (claim.Value.Equals("Admin"))
+                    {
+                        user.IsAdmin = true;
+                    }
+
+                    if (claim.Value.Equals("Recipient"))
+                    {
+                        user.IsRecipient = true;
+                    }
+
+                    if (claim.Value.Equals("Donor"))
+                    {
+                        user.IsDonor = true;
+                    }
+                }
+            }
+
+            return View(users);
+        }
+
+        [Authorize(Policy = "Admin")]
+        public IActionResult UserInfo(string user_id)
+        {
+            UserIdModel user = _leftRoverContext.Users.Where(usr => usr.Id.Equals(user_id)).FirstOrDefault();
+            user.UserInfo = _userInfoContext.UserInfo.Where(usr => usr.Id.Equals(user_id)).FirstOrDefault();
+
+            var curr_user = _userManager.FindByIdAsync(user_id);
+            var claims = _signInManager.UserManager.GetClaimsAsync(curr_user.Result);
+
+            foreach (Claim claim in claims.Result)
+            {
+                if (claim.Value.Equals("Admin"))
+                {
+                    user.IsAdmin = true;
+                }
+
+                if (claim.Value.Equals("Recipient"))
+                {
+                    user.IsRecipient = true;
+                }
+
+                if (claim.Value.Equals("Donor"))
+                {
+                    user.IsDonor = true;
+                }
+            }
+
+            return View(user);
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "Admin")]
+        public async Task<IActionResult> EditUser(UserIdModel user_given)
+        {
+            Claim admin = new Claim("UserType", "Admin");
+            UserIdModel user = _leftRoverContext.Users.Where(usr => usr.Id.Equals(user_given.Id)).FirstOrDefault();
+            user.UserInfo = _userInfoContext.UserInfo.Where(usr => usr.Id.Equals(user_given.Id)).FirstOrDefault();
+
+            var curr_user = await _userManager.FindByIdAsync(user_given.Id);
+            var Identity = new ClaimsIdentity(curr_user.Id);
+
+
+            var claims = await _signInManager.UserManager.GetClaimsAsync(curr_user);
+            bool was_admin = false;
+            bool was_donor = false;
+            bool was_recipient = false;
+            bool was_tax_id_verified = false;
+            foreach (Claim claim in claims)
+            {
+                if (claim.Type.Equals("UserType") && claim.Value.Equals("Admin"))
+                {
+                    was_admin = true;
+                }
+                if (claim.Type.Equals("UserType") && claim.Value.Equals("Donor"))
+                {
+                    was_donor = true;
+                }
+                if (claim.Type.Equals("UserType") && claim.Value.Equals("Recipient"))
+                {
+                    was_recipient = true;
+                }
+                if (claim.Type.Equals("UserType") && claim.Value.Equals("TaxIdVerified"))
+                {
+                    was_tax_id_verified = true;
+                }
+            }
+
+            if (user_given.IsAdmin && !was_admin)
+            {    
+                await _signInManager.UserManager.AddClaimAsync(curr_user, new Claim("UserType", "Admin"));
+            }
+            else if (!user_given.IsAdmin && was_admin)
+            {
+                await _signInManager.UserManager.RemoveClaimAsync(curr_user, new Claim("UserType", "Admin"));
+            }
+
+            if (user_given.IsDonor && !was_donor)
+            {
+                await _signInManager.UserManager.AddClaimAsync(curr_user, new Claim("UserType", "Donor"));
+            }
+            else if (!user_given.IsDonor && was_donor)
+            {
+                await _signInManager.UserManager.RemoveClaimAsync(curr_user, new Claim("UserType", "Donor"));
+            }
+
+            if (user_given.IsRecipient && !was_recipient)
+            {
+                await _signInManager.UserManager.AddClaimAsync(curr_user, new Claim("UserType", "Recipient"));
+            }
+            else if (!user_given.IsRecipient && was_recipient)
+            {
+                await _signInManager.UserManager.RemoveClaimAsync(curr_user, new Claim("UserType", "Recipient"));
+            }
+
+            if (user_given.IsTaxStatusVerified && !was_tax_id_verified)
+            {
+                await _signInManager.UserManager.AddClaimAsync(curr_user, new Claim("UserType", "TaxIdVerified"));
+            }
+            else if (!user_given.IsTaxStatusVerified && was_tax_id_verified)
+            {
+                await _signInManager.UserManager.RemoveClaimAsync(curr_user, new Claim("UserType", "TaxIdVerified"));
+            }
+
+            claims = await _signInManager.UserManager.GetClaimsAsync(curr_user);
+
+            foreach (Claim claim in claims)
+            {
+                if (claim.Value.Equals("Admin"))
+                {
+                    user.IsAdmin = true;
+                }
+
+                if (claim.Value.Equals("Recipient"))
+                {
+                    user.IsRecipient = true;
+                }
+
+                if (claim.Value.Equals("Donor"))
+                {
+                    user.IsDonor = true;
+                }
+            }
+
+            return View("UserInfo", user);
+        }
+
         [Authorize(Policy = "Recipient")]
         public IActionResult RemoveClaimedDonation(int id)
         {

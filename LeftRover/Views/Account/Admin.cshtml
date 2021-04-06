@@ -1,0 +1,75 @@
+﻿@model IEnumerable<LeftRover.Models.UserIdModel>
+@{
+    ViewData["Title"] = "Admin Console";
+}
+
+<div class="row" style="padding-top: 20px; padding-bottom: 20px;">
+    <div class="card">
+        <div class="card-header">
+            LeftRover Users
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Email</th>
+                        <th scope="col">Tax Status Verified</th>
+                        <th scope="col">Is Admin</th>
+                        <th scope="col">Is Donor</th>
+                        <th scope="col">Is Recipient</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (UserIdModel user in Model)
+                    {
+                    <tr>
+                        <td>@user.Email</td>
+                        <td>
+                            @if (user.IsTaxStatusVerified)
+                            {
+                                @Html.Raw("Yes")
+                            }
+                            else
+                            {
+                                @Html.Raw("No")
+                            }
+                        </td>
+                        <td>
+                            @if (user.IsAdmin)
+                            {
+                                @Html.Raw("Yes")
+                            }
+                            else
+                            {
+                                @Html.Raw("No")
+                            }
+                        </td>
+                        <td>
+                            @if (user.IsDonor)
+                            {
+                                @Html.Raw("Yes")
+                            }
+                            else
+                            {
+                                @Html.Raw("No")
+                            }
+                        </td>
+                        <td>
+                            @if (user.IsRecipient)
+                            {
+                                @Html.Raw("Yes")
+                            }
+                            else
+                            {
+                                @Html.Raw("No")
+                            }
+                        </td>
+                        <td><a href="/Account/UserInfo?user_id=@user.Id" class="btn btn-secondary" role="button">Edit</a></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

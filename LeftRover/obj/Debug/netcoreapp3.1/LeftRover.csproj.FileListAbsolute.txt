@@ -327,3 +327,5 @@ C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Debug\netcoreapp3.1\LeftR
 C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Debug\netcoreapp3.1\LeftRover.genruntimeconfig.cache
 C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Debug\netcoreapp3.1\Razor\Views\Account\AccessDenied.cshtml.g.cs
 C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Debug\netcoreapp3.1\Razor\Views\Account\MyItems.cshtml.g.cs
+C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Debug\netcoreapp3.1\Razor\Views\Account\Admin.cshtml.g.cs
+C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Debug\netcoreapp3.1\Razor\Views\Account\UserInfo.cshtml.g.cs

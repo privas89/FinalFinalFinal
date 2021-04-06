@@ -5,19 +5,28 @@
 
 @if (Model.UpdateStatus == 0)
 {
-<div class="row" style="padding-top: 20px;">
-    <div class="alert alert-success" role="alert">
-        Profile update was a success.
+    <div class="row" style="padding-top: 20px;">
+        <div class="alert alert-success" role="alert">
+            Profile update was a success.
+        </div>
     </div>
-</div>
 }
 else if (Model.UpdateStatus == 1)
 {
-<div class="row" style="padding-top: 20px;">
-    <div class="alert alert-danger" role="alert">
-        Unable to update your profile. Please contact the helpdesk.
+    <div class="row" style="padding-top: 20px;">
+        <div class="alert alert-danger" role="alert">
+            Unable to update your profile. Please contact the helpdesk.
+        </div>
     </div>
-</div>
+}
+
+@if (User.HasClaim("UserType", "TaxIdVerified"))
+{
+    @Html.Raw("<div class=\"row\" style=\"padding - top: 20px; \"><div class=\"alert alert-success\" role=\"alert\">Your tax ID has been verified!</div></div>");
+}
+else
+{
+    @Html.Raw("<div class=\"row\" style=\"padding - top: 20px; \"><div class=\"alert-warning\" role=\"alert\">Your tax ID has not been verified. Please sen</div></div>");
 }
 
 <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
