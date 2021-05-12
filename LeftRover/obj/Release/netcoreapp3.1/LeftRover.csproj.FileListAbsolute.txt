@@ -327,3 +327,5 @@ C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Release\netcoreapp3.1\sta
 C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Release\netcoreapp3.1\LeftRover.dll
 C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Release\netcoreapp3.1\LeftRover.pdb
 C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Release\netcoreapp3.1\LeftRover.genruntimeconfig.cache
+C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Release\netcoreapp3.1\Razor\Views\Account\Admin.cshtml.g.cs
+C:\Users\peter\Downloads\FinalFinalFinal\LeftRover\obj\Release\netcoreapp3.1\Razor\Views\Account\UserInfo.cshtml.g.cs

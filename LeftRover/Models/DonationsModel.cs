@@ -71,6 +71,11 @@ namespace LeftRover.Models
         [DataType(DataType.PostalCode)]
         public string Zip { get; set; }
 
+        [Required]
+        [Display(Name = "ExpirationDate")]
+        [DataType(DataType.DateTime)]
+        public DateTime ExpirationDate { get; set; }
+
         public virtual UserInfoModel UserInfo { get; set; }
 
         public string GetAddress()

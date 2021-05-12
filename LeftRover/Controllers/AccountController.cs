@@ -94,6 +94,11 @@ namespace LeftRover.Controllers
                     {
                         user.IsDonor = true;
                     }
+
+                    if (claim.Value.Equals("TaxIdVerified"))
+                    {
+                        user.IsTaxStatusVerified = true;
+                    }
                 }
             }
 
@@ -124,6 +129,11 @@ namespace LeftRover.Controllers
                 if (claim.Value.Equals("Donor"))
                 {
                     user.IsDonor = true;
+                }
+
+                if (claim.Value.Equals("TaxIdVerified"))
+                {
+                    user.IsTaxStatusVerified = true;
                 }
             }
 
@@ -272,7 +282,7 @@ namespace LeftRover.Controllers
             return View("MyItems", my_claims);
         }
 
-        [Authorize(Policy = "Recipient")]
+        [Authorize(Policy = "MAR")]
         public IActionResult MarkDonationRecieved(int id)
         {
             MyClaimsViewModel my_claims = new MyClaimsViewModel();
@@ -385,6 +395,7 @@ namespace LeftRover.Controllers
             donation_to_update.City = model.City;
             donation_to_update.State = model.State;
             donation_to_update.Zip = model.Zip;
+            donation_to_update.ExpirationDate = model.ExpirationDate;
 
             try
             {
@@ -424,7 +435,8 @@ namespace LeftRover.Controllers
                 StreetAddress2 = donation_to_update.StreetAddress2,
                 City = donation_to_update.City,
                 State = donation_to_update.State,
-                Zip = donation_to_update.Zip
+                Zip = donation_to_update.Zip,
+                ExpirationDate = donation_to_update.ExpirationDate
             };
 
             return View(donation_vw_model);
@@ -495,7 +507,8 @@ namespace LeftRover.Controllers
                 StreetAddress2 = model.StreetAddress2,
                 City = model.City,
                 State = model.State,
-                Zip = model.Zip
+                Zip = model.Zip,
+                ExpirationDate = model.ExpirationDate
             };
 
             _donationsContext.Donations.Add(new_donation);

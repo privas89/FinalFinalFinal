@@ -3,37 +3,40 @@
     ViewData["Title"] = "MyDonations";
 }
 
-<div class="row" style="padding-top: 20px; padding-bottom: 20px;">
-    <div class="accordion" id="donationAccordion">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    My Donations
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse @if (!ViewData.ModelState.IsValid) { @Html.Raw("collapse"); } else { @Html.Raw("collapse show"); }" aria-labelledby="headingOne" data-bs-parent="#donationAccordion">
-                <div class="accordion-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Description</th>
-                                <th scope="col">Status</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (Model.Donations != null)
-                            {
-                                @foreach (DonationsModel donation in Model.Donations)
-                                {
+    <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
+        <div class="col-md-12">
+            <div class="accordion" id="donationAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            My Donations
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse @if (!ViewData.ModelState.IsValid) { @Html.Raw("collapse"); } else { @Html.Raw("collapse show"); }" aria-labelledby="headingOne" data-bs-parent="#donationAccordion">
+                        <div class="accordion-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Donations != null)
+                                    {
+                                        @foreach (DonationsModel donation in Model.Donations)
+                                        {
                                     <tr>
                                         <td>@donation.Description</td>
                                         <td>@donation.Status</td>
                                         @if (donation.Status.Equals("Available"))
                                         {
-                                        <td><a href="/Account/SelectDonation?id=@donation.DonationID" class="btn btn-secondary" role="button">Update</a></td>
-                                        <td><a href="/Account/DeleteDonation?id=@donation.DonationID" class="btn btn-secondary" role="button">Delete</a></td>
+                                            <td><a href="/Account/SelectDonation?id=@donation.DonationID" class="btn btn-secondary" role="button">Update</a></td>
+                                            <td><a href="/Account/DeleteDonation?id=@donation.DonationID" class="btn btn-secondary" role="button">Delete</a></td>
+                                            <td><a href="/Account/MarkDonationRecieved?id=@donation.DonationID" class="btn btn-secondary" role="button">Mark Recieved</a></td>
                                         }
                                         else
                                         {
@@ -41,126 +44,134 @@
                                         }
 
                                     </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Add a new Donation
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse @if (!ViewData.ModelState.IsValid) { @Html.Raw("open"); } else { @Html.Raw("collapse"); }" aria-labelledby="headingTwo" data-bs-parent="#donationAccordion">
-                <div class="accordion-body">
-                    <div class="col-md-6">
-                        <form method="post" action="/Account/CreateDonation">
-                            <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            Add a new Donation
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse @if (!ViewData.ModelState.IsValid) { @Html.Raw("open"); } else { @Html.Raw("collapse"); }" aria-labelledby="headingTwo" data-bs-parent="#donationAccordion">
+                        <div class="accordion-body">
+                            <div class="col-md-6">
+                                <form method="post" action="/Account/CreateDonation">
+                                    <div asp-validation-summary="All" class="text-danger"></div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="Description" class="form-label">Description</label>
-                                    <input type="text" asp-for="Description" class="form-control" id="Description">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="Instructions" class="form-label">Instructions</label>
-                                    <textarea class="form-control" asp-for="Instructions" rows="3" id="Instructions"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="mb-3">
-                                        <label for="Contact" class="form-label">Contact</label>
-                                        <input type="text" asp-for="Contact" class="form-control" id="Contact">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="Description" class="form-label">Description</label>
+                                            <input type="text" asp-for="Description" class="form-control" id="Description">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-auto">
 
-                                    <div class="mb-3">
-                                        <label for="PhoneNumber" class="form-label">Phone Number</label>
-                                        <input type="tel" asp-for="PhoneNumber" class="form-control" id="PhoneNumber">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="Instructions" class="form-label">Instructions</label>
+                                            <textarea class="form-control" asp-for="Instructions" rows="3" id="Instructions"></textarea>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="Price" class="form-label">Estimated Value</label>
-                                    <input type="text" asp-for="Price" class="form-control" id="StreetAddress">
-                                </div>
-                            </div>
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <div class="mb-3">
+                                                <label for="Contact" class="form-label">Contact</label>
+                                                <input type="text" asp-for="Contact" class="form-control" id="Contact">
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
 
-                            <div class="row" style="padding-top: 10px;">
-                                <div class="col-md-12">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" asp-for="@Model.DeliveryAvailable" value="true" id="DeliveryAvailable">
-                                        <label class="form-check-label" for="DeliveryAvailable">
-                                            Delivery Available
-                                        </label>
+                                            <div class="mb-3">
+                                                <label for="PhoneNumber" class="form-label">Phone Number</label>
+                                                <input type="tel" asp-for="PhoneNumber" class="form-control" id="PhoneNumber">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" asp-for="@Model.PickupAvailable" value="true" id="PickupAvailable">
-                                        <label class="form-check-label" for="PickupAvailable">
-                                            Pickup Available
-                                        </label>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="Price" class="form-label">Estimated Value</label>
+                                            <input type="text" asp-for="Price" class="form-control" id="Price">
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="StreetAddress" class="form-label">Street Address Line</label>
-                                    <input type="text" asp-for="StreetAddress" class="form-control" id="StreetAddress">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <label for="StreetAddress2" class="form-label">Street Address Line 2</label>
-                                    <input type="text" asp-for="StreetAddress2" class="form-control" id="StreetAddress2">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-auto">
-                                    <div class="mb-3">
-                                        <label for="City" class="form-label">City</label>
-                                        <input type="text" asp-for="City" class="form-control" id="City">
+                                    <div class="row" style="padding-top: 10px;">
+                                        <div class="col-md-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" asp-for="@Model.DeliveryAvailable" value="true" id="DeliveryAvailable">
+                                                <label class="form-check-label" for="DeliveryAvailable">
+                                                    Delivery Available
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-auto">
 
-                                    <div class="mb-3">
-                                        <label for="State" class="form-label">State</label>
-                                        <input type="text" asp-for="State" class="form-control" id="State">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" asp-for="@Model.PickupAvailable" value="true" id="PickupAvailable">
+                                                <label class="form-check-label" for="PickupAvailable">
+                                                    Pickup Available
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row" style="padding-bottom: 20px;">
-                                <div class="col-md-12">
-                                    <label for="Zip" class="form-label">Postal / ZIP Code</label>
-                                    <input type="text" asp-for="Zip" class="form-control" id="Zip">
-                                </div>
-                            </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="StreetAddress" class="form-label">Street Address Line</label>
+                                            <input type="text" asp-for="StreetAddress" class="form-control" id="StreetAddress">
+                                        </div>
+                                    </div>
 
-                            <button type="submit" class="btn btn-primary">Create</button>
-                        </form>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="StreetAddress2" class="form-label">Street Address Line 2</label>
+                                            <input type="text" asp-for="StreetAddress2" class="form-control" id="StreetAddress2">
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <div class="mb-3">
+                                                <label for="City" class="form-label">City</label>
+                                                <input type="text" asp-for="City" class="form-control" id="City">
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+
+                                            <div class="mb-3">
+                                                <label for="State" class="form-label">State</label>
+                                                <input type="text" asp-for="State" class="form-control" id="State">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="padding-bottom: 20px;">
+                                        <div class="col-md-12">
+                                            <label for="Zip" class="form-label">Postal / ZIP Code</label>
+                                            <input type="text" asp-for="Zip" class="form-control" id="Zip">
+                                        </div>
+                                    </div>
+
+                                    <div class="row" style="padding-bottom: 20px;">
+                                        <div class="col-md-12">
+                                            <label for="ExpirationDate" class="form-label">Expiration Date</label>
+                                            <input type="datetime" asp-for="ExpirationDate" class="form-control" id="ExpirationDate">
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Create</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

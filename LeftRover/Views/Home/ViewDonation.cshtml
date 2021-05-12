@@ -47,10 +47,10 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="Price" class="form-label">Estimated Value</label>
-                            <input type="text" asp-for="Price" class="form-control" id="StreetAddress" placeholder="@Model.StreetAddress" disabled>
+                            <input type="text" asp-for="Price" class="form-control" id="Price" placeholder="@Model.Price" disabled value="@Model.Price.ToString("0.00")">
                         </div>
                     </div>
- 
+
                     <div class="row" style="padding-top: 10px;">
                         <div class="col-md-6">
                             <div class="form-check">
@@ -110,6 +110,13 @@
                         </div>
                     </div>
 
+                    <div class="row" style="padding-bottom: 20px;">
+                        <div class="col-md-6">
+                            <label for="ExpirationDate" class="form-label">Expiration Date</label>
+                            <input type="datetime" asp-for="ExpirationDate" class="form-control" id="ExpirationDate" value="@Model.ExpirationDate.ToString("MM/dd/yyyy hh:mm tt")" disabled>
+                        </div>
+                    </div>
+
                     @if (User.Identity.IsAuthenticated && User.HasClaim("UserType", "Donor"))
                     {
 
@@ -117,6 +124,10 @@
                     else if (Model.Status.Equals("Claimed") || Model.Status.Equals("Received"))
                     {
                         <button type="submit" class="btn btn-primary" disabled>Claimed</button>
+                    }
+                    else if (DateTime.Today > Model.ExpirationDate)
+                    {
+                        <button type="submit" class="btn btn-primary" disabled>Expired</button>
                     }
                     else
                     {

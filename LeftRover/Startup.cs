@@ -62,6 +62,14 @@ namespace LeftRover
                                   policy.RequireClaim("UserType", "Admin"));
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("MAR", policy =>
+                                  policy.RequireAssertion(context =>
+                                  context.User.HasClaim(c =>
+                                  (c.Type.Equals("UserType") && (c.Value.Equals("Donor") || c.Value.Equals("Recipient"))))));
+            });
+
             services.AddControllersWithViews();
         }
 
